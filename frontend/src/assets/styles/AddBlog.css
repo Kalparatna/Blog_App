@@ -1,0 +1,97 @@
+/* Make sure the body or parent container takes up the full height of the viewport */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0; /* Optional background color */
+  }
+  
+  /* Container for the Add Blog form */
+  .add-blog-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for the form's header */
+  h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .input-field, .textarea-field, .file-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
+  }
+  
+  .input-field:focus, .textarea-field:focus, .file-input:focus {
+    border-color: #3498db;
+  }
+  
+  .textarea-field {
+    height: 150px; /* Set a fixed height for the description field */
+    resize: vertical;
+  }
+  
+  .file-input {
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  .submit-button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 12px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #2980b9;
+  }
+  
+  .submit-button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+  }
+  
+  @media (max-width: 768px) {
+    .add-blog-container {
+      padding: 20px;
+    }
+  
+    h2 {
+      font-size: 1.8rem;
+    }
+  
+    .input-field, .textarea-field, .file-input {
+      font-size: 0.9rem;
+    }
+  
+    .submit-button {
+      font-size: 0.9rem;
+      padding: 10px;
+    }
+  }
+  
