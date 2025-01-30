@@ -9,7 +9,7 @@ const MyBlogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/my-blogs");
+        const res = await axios.get("blog-app-backend-indol-pi.vercel.app/my-blogs");
         console.log(res.data);  
         setBlogs(res.data);
       } catch (err) {
@@ -23,7 +23,7 @@ const MyBlogs = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this blog?")) {
       try {
-        const response = await axios.delete(`http://localhost:5000/delete-blog/${id}`);
+        const response = await axios.delete(`blog-app-backend-indol-pi.vercel.app/delete-blog/${id}`);
         alert(response.data.message);
         setBlogs(blogs.filter(blog => blog._id !== id));
       } catch (error) {
