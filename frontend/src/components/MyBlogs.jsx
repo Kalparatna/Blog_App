@@ -9,8 +9,9 @@ const MyBlogs = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("blog-app-backend-indol-pi.vercel.app/my-blogs");
-        console.log(res.data);  
+        const res = await axios.get("https://blog-app-backend-indol-pi.vercel.app/my-blogs");  
+
+        console.log(res.data);    
         setBlogs(res.data);
       } catch (err) {
         console.error("Error fetching blogs:", err);
@@ -23,7 +24,7 @@ const MyBlogs = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this blog?")) {
       try {
-        const response = await axios.delete(`blog-app-backend-indol-pi.vercel.app/delete-blog/${id}`);
+        const response = await axios.delete(`https://blog-app-backend-indol-pi.vercel.app/delete-blog/${id}`);
         alert(response.data.message);
         setBlogs(blogs.filter(blog => blog._id !== id));
       } catch (error) {
