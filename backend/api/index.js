@@ -14,7 +14,7 @@ const app = express();
 app.use(
   cors({
     origin: [
-      "frontendurl", // Frontend URL in production
+      "http://localhost:5173/", // Frontend URL in production
       // You can also include other origins or use "*" in development for testing
     ],
     methods: ["GET", "POST"],
