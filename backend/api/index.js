@@ -11,16 +11,8 @@ require('dotenv').config();
 
 // Initialize the Express app
 const app = express();
-app.use(
-  cors({
-    origin: [
-      "blog-app-one-rouge.vercel.app", // Frontend URL in production
-      // You can also include other origins or use "*" in development for testing
-    ],
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE"], allowedHeaders: ["Content-Type"] }));
+
 app.use(express.json());
 
 // MongoDB connection
