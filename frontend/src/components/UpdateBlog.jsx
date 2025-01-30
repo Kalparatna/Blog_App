@@ -17,7 +17,7 @@ const UpdateBlog = () => {
     const fetchBlog = async () => {
       try {
         console.log("Fetching blog with ID:", id); // Log the ID
-        const res = await axios.get(`http://localhost:5000/blog/${id}`);
+        const res = await axios.get(`blog-app-backend-indol-pi.vercel.app/blog/${id}`);
         setTitle(res.data.title);
         setDescription(res.data.description);
         setCurrentImage(res.data.image);
@@ -46,7 +46,7 @@ const UpdateBlog = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:5000/update-blog/${id}`, formData, {
+      const response = await axios.put(`blog-app-backend-indol-pi.vercel.app/update-blog/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert(response.data.message);
