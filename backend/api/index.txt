@@ -1,0 +1,123 @@
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
+const Blog = require("./models/Blog");
+require('dotenv').config();
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// MongoDB connection
+const mongoURI = process.env.MONGO_URI;
+mongoose
+  .connect(mongoURI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log("MongoDB Connection Error:", err));
+
+// Cloudinary setup
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
+
+// Multer storage configuration
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: { folder: "blog_images", format: async () => "png" },
+});
+const upload = multer({ storage: storage });
+
+
+app.post("/add-blog", upload.single("image"), async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    const imageUrl = req.file ? req.file.path : null;
+
+    if (!imageUrl) {
+      return res.status(400).json({ error: "Image is required" });
+    }
+
+    const blog = new Blog({ title, description, image: imageUrl });
+    await blog.save();
+    res.json({ success: true, message: "Blog added successfully!" });
+  } catch (error) {
+    console.error("Error adding blog:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get all blogs
+app.get("/my-blogs", async (req, res) => {
+  try {
+    const blogs = await Blog.find(); 
+    res.json(blogs); 
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get a single blog by ID
+app.get("/blog/:id", async (req, res) => {
+  console.log("Fetching blog with ID:", req.params.id); 
+  try {
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+    res.json(blog);
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Update a blog post
+app.put("/update-blog/:id", upload.single("image"), async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    const imageUrl = req.file ? req.file.path : null; 
+
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      req.params.id, // Blog ID
+      { title, description, image: imageUrl || undefined }, 
+      { new: true } 
+    );
+
+    if (!updatedBlog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    res.json({ success: true, message: "Blog updated successfully!" });
+  } catch (error) {
+    console.error("Error updating blog:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+// Delete a blog post after fetching it
+app.delete("/delete-blog/:id", async (req, res) => {
+  console.log("Fetching blog with ID for deletion:", req.params.id); // Log the ID
+  try {
+    // Fetch the blog first
+    const blog = await Blog.findById(req.params.id);
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
+    // If the blog exists, delete it
+    await Blog.findByIdAndDelete(req.params.id);
+    res.json({ success: true, message: "Blog deleted successfully!" });
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
