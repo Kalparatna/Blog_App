@@ -17,7 +17,7 @@ const UpdateBlog = () => {
     const fetchBlog = async () => {
       try {
         console.log("Fetching blog with ID:", id); // Log the ID
-        const res = await axios.get(`blog-app-backend-indol-pi.vercel.app/blog/${id}`);
+        const res = await axios.get(`https://blog-app-backend-indol-pi.vercel.app/blog/${id}`);
         setTitle(res.data.title);
         setDescription(res.data.description);
         setCurrentImage(res.data.image);
