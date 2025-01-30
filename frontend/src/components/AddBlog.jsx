@@ -22,7 +22,7 @@ const AddBlog = () => {
     formData.append("image", image);
 
     try {
-      const response = await axios.post("http://localhost:5000/add-blog", formData, {
+      const response = await axios.post("blog-app-backend-indol-pi.vercel.app/add-blog", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
