@@ -46,7 +46,7 @@ const UpdateBlog = () => {
     }
 
     try {
-      const response = await axios.put(`blog-app-backend-indol-pi.vercel.app/update-blog/${id}`, formData, {
+      const response = await axios.put(`https://blog-app-backend-indol-pi.vercel.app/update-blog/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       alert(response.data.message);
